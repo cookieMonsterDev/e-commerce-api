@@ -2,33 +2,28 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type Auth {
+input CreateUserInput {
   """Example field (placeholder)"""
   exampleField: Int!
 }
 
-type AuthResponse {
-  accessToken: String!
-  refreshToken: String!
-  user: User!
-}
-
 type Mutation {
-  signUp(signUpInput: SignUpInput!): AuthResponse!
+  createUser(createUserInput: CreateUserInput!): User!
+  removeUser(id: Int!): User!
+  updateUser(updateUserInput: UpdateUserInput!): User!
 }
 
 type Query {
-  auth(id: Int!): Auth!
+  user(id: Int!): User!
 }
 
-input SignUpInput {
-  email: String!
-  password: String!
-  username: String!
+input UpdateUserInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
 }
 
 type User {
-  email: String!
-  id: Int!
-  username: String!
+  """Example field (placeholder)"""
+  exampleField: Int!
 }

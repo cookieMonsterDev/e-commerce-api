@@ -2,8 +2,7 @@ import { ForbiddenException, Injectable } from '@nestjs/common';
 import { SignUpInput } from './dto/sign-up.input';
 import { SignInInput } from './dto/sign-in.input';
 import { PrismaService } from 'src/database/prisma.service';
-import { JwtService } from '@nestjs/jwt';
-import { ConfigService } from '@nestjs/config';
+import { TokenService } from './common/token/token.service';
 import * as bcrypt from 'bcrypt';
 
 interface DuplicatesInputs {
@@ -11,18 +10,11 @@ interface DuplicatesInputs {
   email: string;
 }
 
-interface TokenInputs {
-  userId: number;
-  email: string;
-  role: string;
-}
-
 @Injectable()
 export class AuthService {
   constructor(
     private prisma: PrismaService,
-    private jwtService: JwtService,
-    private configService: ConfigService,
+    private token: TokenService
   ) {}
 
   async signUp({ password, ...rest }: SignUpInput) {
@@ -38,7 +30,7 @@ export class AuthService {
       data: { password: hashedPassword, ...rest },
     });
 
-    const token = this.generateToken({
+    const token = this.token.generateToken({
       userId: user.id,
       email: user.email,
       role: user.role,
@@ -61,23 +53,13 @@ export class AuthService {
 
     if (!passwordMatches) throw new ForbiddenException('Access denied');
 
-    const token = this.generateToken({
+    const token = this.token.generateToken({
       userId: user.id,
       email: user.email,
       role: user.role,
     });
 
     return { user, token };
-  }
-
-  private generateToken({ userId, email, role }: TokenInputs) {
-    return this.jwtService.sign(
-      { userId, email, role },
-      {
-        expiresIn: '1h',
-        secret: this.configService.get('ACCESS_TOKEN_SERVICE'),
-      },
-    );
   }
 
   private async duplicatesValidation(payload: DuplicatesInputs) {

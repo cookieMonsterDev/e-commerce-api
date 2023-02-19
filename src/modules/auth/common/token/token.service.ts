@@ -8,9 +8,13 @@ export class TokenService {
     private jwtService: JwtService
   ) {}
 
-  async generateToken({ userId, email, role }: TokenInputs) {
+  generateToken({ userId, email, role }: TokenInputs) {
     return this.jwtService.sign(
       { userId, email, role }
     );
+  }
+
+  decodeToken(token: string) {
+    return this.jwtService.decode(token) as TokenInputs
   }
 }

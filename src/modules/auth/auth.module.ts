@@ -15,7 +15,7 @@ import { PrismaService } from 'src/database/prisma.service';
     JwtModule.registerAsync({
       useFactory: (configService: ConfigService) => ({
         secret: configService.get<string>('ACCESS_TOKEN_SERVICE'),
-        signOptions: { expiresIn: '10s' },
+        signOptions: { expiresIn: '8h' },
       }),
       inject: [ConfigService],
     }),
@@ -25,7 +25,7 @@ import { PrismaService } from 'src/database/prisma.service';
     AuthResolver,
     TokenService,
     TokenStrategy,
-    PrismaService,
+    PrismaService
   ],
   exports: [AuthService],
 })

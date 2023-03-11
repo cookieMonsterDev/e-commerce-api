@@ -38,6 +38,12 @@ export class AuthService {
     const user = await this.prisma.user.create({
       data: { ...other, hash },
     });
-    return user;
+
+    const token = this.tokenService.generateToken({
+      userId: user.id,
+      role: user.role,
+    });
+
+    return { ...user, token };
   }
 }

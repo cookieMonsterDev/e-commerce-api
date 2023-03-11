@@ -10,7 +10,7 @@ import {
   IsNumber,
 } from 'class-validator';
 
-export class RegisterDto {
+export class UpdateUserDto {
   @IsOptional()
   @IsString()
   @MaxLength(64)
@@ -21,10 +21,12 @@ export class RegisterDto {
   @MaxLength(64)
   lastName: string;
 
+  @IsOptional()
   @IsEmail()
   @IsNotEmpty()
   email: string;
 
+  @IsOptional()
   @IsString()
   @IsNotEmpty()
   @MinLength(8)

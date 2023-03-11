@@ -8,45 +8,76 @@ datasource db {
 }
 
 model User {
-  id        Int       @id @default(autoincrement())
+  id        String    @id @default(uuid())
   fistName  String?
   lastName  String?
   email     String    @unique
-  hash      String    @unique
+  hash      String
   role      UserRoles @default(CLIENT)
-  vendorId  Int?
-  vendor    Vendor?   @relation(fields: [vendorId], references: [id])
+  orders    Order[]
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
 
   @@map("users")
 }
 
-model Vendor {
-  id       Int       @id @default(autoincrement())
-  name     String
-  products Product[]
-  traders  User[]
-
-  @@map("vendors")
-}
-
 model Product {
-  id          Int      @id @default(autoincrement())
-  vendorId    Int
-  vendor      Vendor   @relation(fields: [vendorId], references: [id])
-  title       String
-  description String?
-  amount      Int
-  price       Float
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id                 String      @id @default(uuid())
+  title              String
+  titleImage         String
+  Images             String
+  description        String?
+  stock              Int         @default(0)
+  price              Float
+  discountPercentage Int         @default(0)
+  categories         Category[]
+  orders             Order[]
+  createdAt          DateTime    @default(now())
+  updatedAt          DateTime    @updatedAt
+  OrderItem          OrderItem[]
 
   @@map("products")
 }
 
+model Category {
+  id        String    @id @default(uuid())
+  name      String    @unique
+  products  Product[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  @@map("categorys")
+}
+
+model OrderItem {
+  id         String   @id @default(uuid())
+  orderId    String
+  order      Order    @relation(fields: [orderId], references: [id])
+  productId  String
+  product    Product  @relation(fields: [productId], references: [id])
+  amount     Int      @default(1)
+  totalPrice Decimal
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@map("orders")
+}
+
+model Order {
+  id         String      @id @default(uuid())
+  userId     String?     @unique
+  user       User?       @relation(fields: [userId], references: [id])
+  items      OrderItem[]
+  totalPrice Decimal
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+  Product    Product?    @relation(fields: [productId], references: [id])
+  productId  String?
+
+  @@map("cards")
+}
+
 enum UserRoles {
   CLIENT
-  SELLER
   ADMIN
 }

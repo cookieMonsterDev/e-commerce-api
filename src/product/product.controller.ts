@@ -24,7 +24,7 @@ export class ProductController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: number) {
+  findOne(@Param('id') id: string) {
     return this.productService.findOneById(id);
   }
 
@@ -36,13 +36,13 @@ export class ProductController {
 
   @UseGuards(JwtAuthGuard)
   @Put(':id')
-  updateOne(@Param('id') id: number, @Body() body: any) {
+  updateOne(@Param('id') id: string, @Body() body: any) {
     return this.productService.updateOneById(id, body);
   }
 
   @UseGuards(JwtAuthGuard)
   @Delete(':id')
-  deleteOne(@Param('id') id: number) {
+  deleteOne(@Param('id') id: string) {
     return this.productService.deleteOneById(id);
   }
 }

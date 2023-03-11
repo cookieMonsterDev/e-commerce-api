@@ -7,13 +7,20 @@ import {
 } from 'class-validator';
 
 export class CreateProductDto {
-  @IsNotEmpty()
-  vendorId: number;
-
   @IsString()
   @IsNotEmpty()
   @MaxLength(256)
   title: string;
+
+  @IsString()
+  @IsNotEmpty()
+  @MaxLength(256)
+  titleImage: string;
+
+  @IsString()
+  @IsNotEmpty()
+  @MaxLength(256)
+  Images: string;
 
   @IsOptional()
   @IsString()
@@ -22,9 +29,13 @@ export class CreateProductDto {
 
   @IsNumber()
   @IsNotEmpty()
-  amount: number;
+  stock: number;
 
   @IsNumber()
   @IsNotEmpty()
   price: number;
+
+  @IsOptional()
+  @IsNumber()
+  discountPercentage: number;
 }

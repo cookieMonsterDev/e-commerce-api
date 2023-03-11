@@ -12,7 +12,7 @@ export class UserService {
     return users;
   }
 
-  async findOneById(userId: number) {
+  async findOneById(userId: string) {
     const user = await this.prisma.user.findFirst({
       where: { id: userId },
     });
@@ -20,7 +20,7 @@ export class UserService {
     return user;
   }
 
-  async updateOneById(userId: number, body: UpdateUserDto) {
+  async updateOneById(userId: string, body: UpdateUserDto) {
     const user = await this.prisma.user.update({
       where: { id: userId },
       data: { ...body },
@@ -29,7 +29,7 @@ export class UserService {
     return user;
   }
 
-  async deleteOneById(userId: number) {
+  async deleteOneById(userId: string) {
     const user = await this.prisma.user.delete({
       where: { id: userId },
     });

@@ -23,19 +23,19 @@ export class UserController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: number) {
+  findOne(@Param('id') id: string) {
     return this.userServices.findOneById(id);
   }
 
   @UseGuards(JwtAuthGuard)
   @Put(':id')
-  updateOne(@Param('id') id: number, @Body() body: UpdateUserDto) {
+  updateOne(@Param('id') id: string, @Body() body: UpdateUserDto) {
     return this.userServices.updateOneById(id, body);
   }
 
   @UseGuards(JwtAuthGuard)
   @Delete(':id')
-  deleteOne(@Param('id') id: number) {
+  deleteOne(@Param('id') id: string) {
     return this.userServices.deleteOneById(id);
   }
 }

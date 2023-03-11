@@ -12,7 +12,7 @@ export class ProductService {
     return products;
   }
 
-  async findOneById(productId: number) {
+  async findOneById(productId: string) {
     const product = await this.prisma.product.findFirst({
       where: { id: productId },
     });
@@ -28,7 +28,7 @@ export class ProductService {
     return product;
   }
 
-  async updateOneById(productId: number, body: any) {
+  async updateOneById(productId: string, body: any) {
     const product = await this.prisma.product.update({
       where: { id: productId },
       data: { ...body },
@@ -37,7 +37,7 @@ export class ProductService {
     return product;
   }
 
-  async deleteOneById(productId: number) {
+  async deleteOneById(productId: string) {
     const product = await this.prisma.product.delete({
       where: { id: productId },
     });

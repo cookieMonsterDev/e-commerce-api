@@ -9,7 +9,7 @@ import {
   Query,
   UseGuards,
 } from '@nestjs/common';
-import { JwtAuthGuard } from 'src/auth/guards';
+import { AdminGuard, JwtAuthGuard } from '../auth/guards';
 import { CreateProductDto } from './dto';
 import { ProductService } from './product.service';
 
@@ -28,19 +28,19 @@ export class ProductController {
     return this.productService.findOneById(id);
   }
 
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, AdminGuard)
   @Post('/')
   create(@Body() body: CreateProductDto) {
     return this.productService.create(body);
   }
 
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, AdminGuard)
   @Put(':id')
   updateOne(@Param('id') id: string, @Body() body: any) {
     return this.productService.updateOneById(id, body);
   }
 
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, AdminGuard)
   @Delete(':id')
   deleteOne(@Param('id') id: string) {
     return this.productService.deleteOneById(id);

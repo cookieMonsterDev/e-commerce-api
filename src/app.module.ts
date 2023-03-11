@@ -1,10 +1,12 @@
 import { Module } from '@nestjs/common';
-import { AuthModule } from './auth/auth.module';
-import { UsersModule } from './user/user.module';
-import { ProductModule } from './product/product.module';
-import { PrismaModule } from './prisma/prisma.module';
-import { TokenModule } from './token/token.module';
+import { AuthModule } from './modules/auth/auth.module';
+import { UsersModule } from './modules/user/user.module';
+import { ProductModule } from './modules/product/product.module';
+import { PrismaModule } from './modules/prisma/prisma.module';
+import { TokenModule } from './services/token/token.module';
 import { ConfigModule } from '@nestjs/config';
+import { OrderModule } from './modules/order/order.module';
+import { CartModule } from './modules/cart/cart.module';
 
 @Module({
   imports: [
@@ -16,6 +18,8 @@ import { ConfigModule } from '@nestjs/config';
     ProductModule,
     PrismaModule,
     TokenModule,
+    OrderModule,
+    CartModule,
   ],
 })
 export class AppModule {}

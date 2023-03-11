@@ -7,7 +7,6 @@ import {
   MaxLength,
   MinLength,
   IsOptional,
-  IsNumber,
 } from 'class-validator';
 
 export class UpdateUserDto {
@@ -54,8 +53,4 @@ export class UpdateUserDto {
     message: 'there is no such role',
   })
   role: UserRoles;
-
-  @IsOptional()
-  @IsNumber()
-  vendorId: number;
 }

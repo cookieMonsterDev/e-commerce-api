@@ -7,26 +7,34 @@ export class UserService {
   constructor(private prisma: PrismaService) {}
 
   async findMany() {
-    const users = await this.prisma.user.findMany();
+    const users = await this.prisma.user.findMany({select: {
+      id: true,
+      fistName: true,
+      lastName: true,
+      email: true,
+      role: true,
+      createdAt: true,
+      updatedAt: true,
+    }});
 
     return users;
   }
 
   async findOneById(userId: string) {
-    const user = await this.prisma.user.findFirst({
+    const {hash, ...rest} = await this.prisma.user.findFirst({
       where: { id: userId },
     });
 
-    return user;
+    return rest;
   }
 
   async updateOneById(userId: string, body: UpdateUserDto) {
-    const user = await this.prisma.user.update({
+    const {hash, ...rest} = await this.prisma.user.update({
       where: { id: userId },
       data: { ...body },
     });
 
-    return user;
+    return rest;
   }
 
   async deleteOneById(userId: string) {

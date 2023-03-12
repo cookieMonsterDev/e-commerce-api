@@ -22,6 +22,8 @@ export class PrismaFilter extends BaseExceptionFilter {
         break;
       }
       default:
+        console.log(exception.message)
+        console.log(exception.code)
         super.catch(exception, host);
         break;
     }

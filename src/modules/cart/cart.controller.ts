@@ -11,10 +11,13 @@ import {
 } from '@nestjs/common';
 import { AdminGuard, JwtAuthGuard } from '../auth/guards';
 import { UserId } from '../user/decorators/userId.decorator';
+import { CartService } from './cart.service';
 
 @UseGuards(JwtAuthGuard)
-@Controller('cart')
+@Controller('carts')
 export class CartController {
+  constructor(private cartService: CartService) {}
+
   @UseGuards(AdminGuard)
   @Get('/')
   findMany(@Query() params: any) {
@@ -26,15 +29,15 @@ export class CartController {
     return userId;
   }
 
-  @UseGuards(AdminGuard)
+  // @UseGuards(AdminGuard)
   @Get(':id')
-  findOneById(@Param('id') orderId: string) {
-    return orderId;
+  findOneById(@Param('id') cartId: string) {
+    return this.cartService.findOneById(cartId);
   }
 
   @Post('/')
-  create(@Body() body: any) {
-    return body;
+  create(@UserId() userId: string) {
+    return this.cartService.create(userId);
   }
 
   @Put('me/:id')

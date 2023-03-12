@@ -11,10 +11,14 @@ import {
 } from '@nestjs/common';
 import { AdminGuard, JwtAuthGuard } from '../auth/guards';
 import { UserId } from '../user/decorators/userId.decorator';
+import { OrderDto } from './order.dto';
+import { OrderService } from './order.service';
 
 @UseGuards(JwtAuthGuard)
-@Controller('order')
+@Controller('orders')
 export class OrderController {
+  constructor(private orderService: OrderService) {}
+
   @UseGuards(AdminGuard)
   @Get('/')
   findMany(@Query() params: any) {
@@ -26,16 +30,16 @@ export class OrderController {
     return userId;
   }
 
-  @UseGuards(AdminGuard)
+  // @UseGuards(AdminGuard)
   @Get(':id')
   findOneById(@Param('id') orderId: string) {
-    return orderId;
+    return this.orderService.findOneById(orderId);
   }
 
   // Here need decorator to check if user has cart
   @Post('/')
-  create(@Body() body: any) {
-    return body;
+  create(@UserId() userId: string,  @Body() body: OrderDto) {
+    return this.orderService.create(userId, body);
   }
 
   @Put('me/:id')

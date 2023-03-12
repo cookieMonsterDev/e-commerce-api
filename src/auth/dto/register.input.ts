@@ -1,4 +1,4 @@
-import { InputType, Field } from '@nestjs/graphql';
+import { InputType, Field, registerEnumType } from '@nestjs/graphql';
 import {
   IsNotEmpty,
   IsString,
@@ -8,26 +8,29 @@ import {
   Matches,
   IsOptional,
 } from 'class-validator';
+import { UserRoles } from '@prisma/client';
+
+registerEnumType(UserRoles, {
+  name: 'UserRoles',
+});
 
 @InputType()
 export class RegisterInput {
-  @Field(() => String)
+  @Field(() => String, { nullable: true })
   @IsOptional()
-  @IsString()
   @MaxLength(64)
-  fistName;
+  fistName: string;
 
-  @Field(() => String)
+  @Field(() => String, { nullable: true })
   @IsOptional()
-  @IsString()
   @MaxLength(64)
-  lastName;
+  lastName: string;
 
   @Field(() => String)
   @IsNotEmpty()
   @IsString()
   @IsEmail()
-  email;
+  email: string;
 
   @Field(() => String)
   @IsString()
@@ -49,9 +52,10 @@ export class RegisterInput {
   @Matches(/^\S*$/, {
     message: 'password must have no spaces',
   })
-  password;
+  password: string;
 
-  @Field(() => String, )
+  @Field(() => UserRoles, { defaultValue: 'CLIENT' })
   @IsOptional()
-  role;
+  @IsString()
+  role: UserRoles;
 }

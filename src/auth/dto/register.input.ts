@@ -1,31 +1,35 @@
-import { UserRoles } from '@prisma/client';
+import { InputType, Field } from '@nestjs/graphql';
 import {
-  IsEmail,
   IsNotEmpty,
   IsString,
-  Matches,
-  MaxLength,
+  IsEmail,
   MinLength,
+  MaxLength,
+  Matches,
   IsOptional,
 } from 'class-validator';
 
-export class UpdateUserDto {
+@InputType()
+export class RegisterInput {
+  @Field(() => String)
   @IsOptional()
   @IsString()
   @MaxLength(64)
-  fistName: string;
+  fistName;
 
+  @Field(() => String)
   @IsOptional()
   @IsString()
   @MaxLength(64)
-  lastName: string;
+  lastName;
 
-  @IsOptional()
-  @IsEmail()
+  @Field(() => String)
   @IsNotEmpty()
-  email: string;
+  @IsString()
+  @IsEmail()
+  email;
 
-  @IsOptional()
+  @Field(() => String)
   @IsString()
   @IsNotEmpty()
   @MinLength(8)
@@ -45,12 +49,9 @@ export class UpdateUserDto {
   @Matches(/^\S*$/, {
     message: 'password must have no spaces',
   })
-  password: string;
+  password;
 
+  @Field(() => String, )
   @IsOptional()
-  @IsString()
-  @Matches(RegExp(`^${Object.values(UserRoles).join('|')}$`), {
-    message: 'there is no such role',
-  })
-  role: UserRoles;
+  role;
 }

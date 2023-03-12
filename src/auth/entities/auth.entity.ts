@@ -1,17 +1,35 @@
+import { ObjectType, Field, Int } from '@nestjs/graphql';
 import {
-  IsEmail,
   IsNotEmpty,
   IsString,
-  Matches,
-  MaxLength,
+  IsEmail,
   MinLength,
+  MaxLength,
+  Matches,
+  IsOptional,
 } from 'class-validator';
 
-export class LoginDto {
-  @IsEmail()
-  @IsNotEmpty()
-  email: string;
+@ObjectType()
+export class Auth {
+  @Field(() => String)
+  @IsOptional()
+  @IsString()
+  @MaxLength(64)
+  fistName;
 
+  @Field(() => String)
+  @IsOptional()
+  @IsString()
+  @MaxLength(64)
+  lastName;
+
+  @Field(() => String)
+  @IsNotEmpty()
+  @IsString()
+  @IsEmail()
+  email;
+
+  @Field(() => String)
   @IsString()
   @IsNotEmpty()
   @MinLength(8)
@@ -31,5 +49,9 @@ export class LoginDto {
   @Matches(/^\S*$/, {
     message: 'password must have no spaces',
   })
-  password: string;
+  password;
+
+  @Field(() => String, )
+  @IsOptional()
+  role;
 }
